@@ -33,6 +33,11 @@ Having defined an event, the `with-esper` macro can be used to build the Esper r
 
 For more examples please see the tests.
 
+## TODO
+
+* Allow nesting of events ([see 2.6.4.1 in Esper Reference](http://esper.codehaus.org/esper-4.3.0/doc/reference/en/html/event_representation.html#eventrep-map-nested))
+* Expose output event stream as a sequence (rather than through handler functions).
+
 ## License
 
 Copyright &copy; 2011 Paul Ingles.

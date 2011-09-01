@@ -107,10 +107,6 @@
        (.addEventType config name (as-properties attributes)))
      config))
 
-(defn test-printer
-  [& args]
-  (apply println args))
-
 (defn attach-statement
   "Creates a statement with n handlers"
   [statement & handlers]

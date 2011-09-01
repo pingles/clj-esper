@@ -1,6 +1,93 @@
 (ns clj-esper.test.core
-  (:use [clj-esper.core])
-  (:use [clojure.test]))
+  (:use [clj-esper.core] :reload)
+  (:use [clojure.test])
+  (:import [com.espertech.esper.event.map MapEventBean]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
+
+(defevent TestEvent [a :int b :string])
+(defevent OtherEvent [a :string])
+(defstatement request-count "SELECT a, b FROM TestEvent")
+(defstatement other-event "SELECT a FROM OtherEvent")
+
+(deftest events
+  (is (= "TestEvent"
+         (event-name TestEvent)))
+  (is (= [:a :b]
+         (event-attribute-names TestEvent)))
+  (is (= {:a :int :b :string}
+         (event-attributes TestEvent)))
+  (is (= {:a nil :b nil}
+         (new-event TestEvent)))
+  (is (= {:a 1 :b "hello"}
+         (new-event TestEvent :a 1 :b "hello")))
+  (is (= TestEvent
+         (meta (new-event TestEvent))))
+  (is (= {:a 1 :b "hello"}
+         (new-event TestEvent :a "1" :b "hello"))))
+
+(deftest coercion
+  (is (= {:a (int 1)}
+         (coerce-values {:a "1"}
+                        {:a :int})))
+  (is (= {:a "1234"}
+         (coerce-values {:a 1234}
+                        {:a :string}))))
+
+(defn- handler
+  [atom]
+  (fn [x]
+    (swap! atom conj x)))
+
+(deftest esper-configuration
+  (with-esper service
+    #{TestEvent}
+    (let [config (configuration service)]
+      (is (not (nil? config)))
+      (is (= "TestEvent"
+             (-> (.getEventType config "TestEvent")
+                 (.getName))))
+      (is (some #{"a" "b"}
+                (-> (.getEventType config "TestEvent")
+                    (.getPropertyNames)
+                    vec)))
+      (is (= Integer
+             (-> (.getEventType config "TestEvent")
+                 (.getPropertyType "a"))))
+      (is (= String
+             (-> (.getEventType config "TestEvent")
+                 (.getPropertyType "b")))))))
+
+(deftest esper-handlers
+  (let [result (atom [])]
+    (with-esper service
+      #{TestEvent}
+      (attach-statement request-count (handler result))
+      (is (= 0 (count @result)))
+      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
+      (is (= 1 (count @result)))))
+  (let [result (atom [])
+        other-result (atom [])]
+    (with-esper service
+      #{TestEvent OtherEvent}
+      (attach-statement request-count (handler result))
+      (attach-statement other-event (handler other-result))
+      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
+      (is (= 1 (count @result)))
+      (is (= 0 (count @other-result)))
+      (trigger-event (new-event OtherEvent :a "Hello"))
+      (is (= 1 (count @other-result)))))
+  (let [result (atom [])]
+    (with-esper service
+      #{TestEvent}
+      (attach-statement request-count (handler result))
+      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
+      (let [r (first @result)]
+        (is (instance? MapEventBean r))
+        (is (= 1 (.get r "a")))
+        (is (= "Hello" (.get r "b"))))))
+  (let [result (atom [])]
+    (with-esper service
+      #{TestEvent}
+      (attach-statement request-count (handler result) (handler result))
+      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
+      (is (= 2 (count @result))))))

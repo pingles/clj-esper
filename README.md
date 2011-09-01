@@ -11,6 +11,12 @@ It provides a SQL-like language across a stream of data:
 	WHERE status >= 200 AND status < 400
 	OUTPUT SNAPSHOT EVERY 1 SECONDS
 
+## Installing
+
+A snapshot is available on [Clojars](http://clojars.org). This can be added to your [leiningen](http://github.com/technomancy/leiningen) `project.clj`:
+
+	[clj-esper "1.0.0-SNAPSHOT"]
+
 ## Usage
 
 Esper is organised around events. clj-esper provides a `defevent` macro that makes it easier to build map event objects for esper (clj-esper uses Esper's [Map Event Type](http://esper.codehaus.org/esper-4.3.0/doc/reference/en/html/event_representation.html#eventrep-java-util-map)).

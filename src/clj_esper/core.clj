@@ -117,7 +117,7 @@
 
 (defn attach-statements
   "Allows attachment of multiple statements."
-  [handlers statements]
+  [statements & handlers]
   (doseq [s statements] (apply attach-statement s handlers)))
 
 (defn trigger-event

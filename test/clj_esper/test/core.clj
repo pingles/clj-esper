@@ -90,4 +90,9 @@
       #{TestEvent}
       (attach-statement request-count (handler result) (handler result))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
-      (is (= 2 (count @result))))))
+      (is (= 2 (count @result)))))
+  (let [r1 (atom [])
+        r2 (atom [])]
+    (with-esper service
+      #{TestEvent OtherEvent}
+      (attach-statements #{request-count other-event}))))

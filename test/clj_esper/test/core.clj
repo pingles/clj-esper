@@ -6,8 +6,8 @@
 
 (defevent TestEvent [a :int b :string])
 (defevent OtherEvent [a :string])
-(defstatement request-count "SELECT a, b FROM TestEvent")
-(defstatement other-event "SELECT a FROM OtherEvent")
+(defstatement select-test "SELECT a, b FROM TestEvent")
+(defstatement select-other "SELECT a FROM OtherEvent")
 
 (deftest events
   (is (= "TestEvent"
@@ -69,7 +69,7 @@
         other-result (atom [])]
     (with-esper service
       #{TestEvent OtherEvent}
-      (attach-statement request-count (handler result))
+      (attach-statement select-test (handler result))
       (attach-statement other-event (handler other-result))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (is (= 1 (count @result)))
@@ -79,7 +79,7 @@
   (let [result (atom [])]
     (with-esper service
       #{TestEvent}
-      (attach-statement request-count (handler result))
+      (attach-statement select-test (handler result))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (let [r (first @result)]
         (is (instance? MapEventBean r))
@@ -88,11 +88,13 @@
   (let [result (atom [])]
     (with-esper service
       #{TestEvent}
-      (attach-statement request-count (handler result) (handler result))
+      (attach-statement select-test (handler result) (handler result))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (is (= 2 (count @result)))))
-  (let [r1 (atom [])
-        r2 (atom [])]
+  (let [r (atom [])]
     (with-esper service
       #{TestEvent OtherEvent}
-      (attach-statements #{request-count other-event}))))
+      (attach-statements [select-test select-other] (handler r))
+      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
+      (trigger-event (new-event OtherEvent :a "Hello"))
+      (is (= 2 (count @r))))))

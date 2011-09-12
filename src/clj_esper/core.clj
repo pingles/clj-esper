@@ -117,10 +117,8 @@
 
 (defn attach-statements
   "Allows attachment of multiple statements."
-  [statements & handlers]
-  (letfn [(broadcast [& args]
-            (doseq [fn handlers] (apply fn args)))]
-    (doseq [s statements] (attach-statement s handlers))))
+  [statements handlers]
+  (doseq [s statements] (attach-statement s handlers)))
 
 (defn trigger-event
   [event]

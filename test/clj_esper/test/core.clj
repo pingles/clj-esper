@@ -94,7 +94,8 @@
   (let [r (atom [])]
     (with-esper service
       #{TestEvent OtherEvent}
-      (attach-statements [select-test select-other] (handler r))
+      (attach-statements [(handler r) (handler r)]
+                         [select-test select-other])
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (trigger-event (new-event OtherEvent :a "Hello"))
-      (is (= 2 (count @r))))))
+      (is (= 4 (count @r))))))

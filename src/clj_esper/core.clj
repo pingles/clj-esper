@@ -120,7 +120,7 @@
   (create-statement service (:statement s) (:name s)))
 
 (defn attach-statement
-  "Creates a statement with n handlers"
+  "Creates a statement with attached handlers"
   [statement & handlers]
   (letfn [(broadcast [& args]
             (doseq [fn handlers] (apply fn args)))]
@@ -128,7 +128,7 @@
                      (create-listener broadcast))))
 
 (defn attach-statements
-  "Allows attachment of multiple statements."
+  "Allows attachment of multiple statements to the same handlers."
   [statements & handlers]
   (doseq [s statements] (apply attach-statement s handlers)))
 
@@ -146,11 +146,10 @@
      (.. service getEPAdministrator getStatementNames)))
 
 (defmacro with-esper
-  "Creates an Esper service, events are listed in es. ss is a sequence
-   of statements and a handler functions."
-  [name es & body]
-  (let [service-url (str (gensym name))]
-    `(let [config# (create-configuration ~es)
+  "Creates an Esper service and registers specified events."
+  [name {:keys [events url] :or {events [] url (str (gensym name))}} & body]
+  (let [service-url url]
+    `(let [config# (create-configuration ~events)
            ~name (create-service ~service-url config#)]
        (binding [*service* ~name]
         ~@body))))

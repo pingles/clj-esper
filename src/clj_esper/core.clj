@@ -147,12 +147,11 @@
 
 (defmacro with-esper
   "Creates an Esper service and registers specified events."
-  [name {:keys [events url] :or {events [] url (str (gensym name))}} & body]
-  (let [service-url url]
-    `(let [config# (create-configuration ~events)
-           ~name (create-service ~service-url config#)]
-       (binding [*service* ~name]
-        ~@body))))
+  [name {:keys [events uri] :or {events [] uri (str (gensym name))}} & body]
+  `(let [config# (create-configuration ~events)
+         ~name (create-service ~uri config#)]
+     (binding [*service* ~name]
+       ~@body)))
 
 (defmacro defevent
   "Creates an event record and registers the details in *event-attributes*"

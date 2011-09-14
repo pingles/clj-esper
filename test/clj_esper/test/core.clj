@@ -1,7 +1,9 @@
 (ns clj-esper.test.core
   (:use [clj-esper.core] :reload)
   (:use [clojure.test])
-  (:import [com.espertech.esper.event.map MapEventBean]))
+  (:import [com.espertech.esper.event.map MapEventBean]
+           [com.espertech.esper.client EPServiceProviderManager]
+           [com.espertech.esper.core EPServiceProviderImpl]))
 
 
 (defevent TestEvent [a :int b :string])
@@ -10,11 +12,17 @@
 (defstatement select-other "SELECT a FROM OtherEvent")
 
 (deftest statements
-  (with-esper service {:url "blah"
-                       :events #{TestEvent}}
+  (with-esper service {:events #{TestEvent}}
     (attach-statement select-test)
     (is (= "select-test"
            (first (statement-names))))))
+
+(deftest with-esper-uri
+  (with-esper service {:uri "blah"}
+    (is (instance? EPServiceProviderImpl
+                   (EPServiceProviderManager/getProvider "blah")))
+    (is (= service
+           (EPServiceProviderManager/getProvider "blah")))))
 
 (deftest events
   (is (= "TestEvent"

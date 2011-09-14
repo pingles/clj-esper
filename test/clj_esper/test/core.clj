@@ -9,6 +9,12 @@
 (defstatement select-test "SELECT a, b FROM TestEvent")
 (defstatement select-other "SELECT a FROM OtherEvent")
 
+(deftest statements
+  (with-esper service #{TestEvent}
+    (attach-statement select-test)
+    (is (= "select-test"
+           (first (statement-names service))))))
+
 (deftest events
   (is (= "TestEvent"
          (event-name TestEvent)))

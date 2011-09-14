@@ -21,8 +21,10 @@
 
 (defn create-statement
   "Creates an Esper statement"
-  [service statement]
-  (.createEPL (.getEPAdministrator service) statement))
+  ([service statement]
+     (.createEPL (.getEPAdministrator service) statement))
+  ([service statement name]
+     (.createEPL (.getEPAdministrator service) statement name)))
 
 (defn attach-listener
   "Attaches the listener to the statement."
@@ -107,12 +109,22 @@
        (.addEventType config name (as-properties attributes)))
      config))
 
+(defrecord Statement [name statement])
+
+(defmulti create-stmt (fn [s _] (class s)))
+(defmethod create-stmt String
+  [s service]
+  (create-statement service s))
+(defmethod create-stmt Statement
+  [s service]
+  (create-statement service (:statement s) (:name s)))
+
 (defn attach-statement
   "Creates a statement with n handlers"
   [statement & handlers]
   (letfn [(broadcast [& args]
             (doseq [fn handlers] (apply fn args)))]
-    (attach-listener (create-statement *service* statement)
+    (attach-listener (create-stmt statement *service*)
                      (create-listener broadcast))))
 
 (defn attach-statements
@@ -126,14 +138,18 @@
         event-data (stringify-keys event)]
     (send-event *service* event-data event-type)))
 
+(defn statement-names
+  "Returns the names of all statements that have been registered"
+  [service]
+  (.. service getEPAdministrator getStatementNames))
+
 (defmacro with-esper
   "Creates an Esper service, events are listed in es. ss is a sequence
    of statements and a handler functions."
   [name es & body]
   (let [service-url (str (gensym name))]
     `(let [config# (create-configuration ~es)
-           ~name (create-service ~service-url
-                                 config#)]
+           ~name (create-service ~service-url config#)]
        (binding [*service* ~name]
         ~@body))))
 
@@ -150,4 +166,5 @@
 (defmacro defstatement
   "Binds statement s to var name."
   [name s]
-  `(def ~name ~s))
+  (let [name-str (as-str name)]
+    `(def ~name (Statement. ~name-str ~s))))

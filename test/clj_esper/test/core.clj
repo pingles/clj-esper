@@ -61,7 +61,7 @@
   (let [result (atom [])]
     (with-esper service
       #{TestEvent}
-      (attach-statement request-count (handler result))
+      (attach-statement select-test (handler result))
       (is (= 0 (count @result)))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (is (= 1 (count @result)))))
@@ -70,7 +70,7 @@
     (with-esper service
       #{TestEvent OtherEvent}
       (attach-statement select-test (handler result))
-      (attach-statement other-event (handler other-result))
+      (attach-statement select-other (handler other-result))
       (trigger-event (new-event TestEvent :a 1 :b "Hello"))
       (is (= 1 (count @result)))
       (is (= 0 (count @other-result)))

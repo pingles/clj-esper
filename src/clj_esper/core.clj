@@ -41,7 +41,7 @@
   (.. service getEPAdministrator getConfiguration))
 
 
-(def ^:dynamic *service* nil)
+(def *service* nil)
 
 (defn event-name
   [event]
@@ -140,8 +140,10 @@
 
 (defn statement-names
   "Returns the names of all statements that have been registered"
-  [service]
-  (.. service getEPAdministrator getStatementNames))
+  ([]
+     (.. *service* getEPAdministrator getStatementNames))
+  ([service]
+     (.. service getEPAdministrator getStatementNames)))
 
 (defmacro with-esper
   "Creates an Esper service, events are listed in es. ss is a sequence

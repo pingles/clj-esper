@@ -13,7 +13,7 @@
   (with-esper service #{TestEvent}
     (attach-statement select-test)
     (is (= "select-test"
-           (first (statement-names service))))))
+           (first (statement-names))))))
 
 (deftest events
   (is (= "TestEvent"

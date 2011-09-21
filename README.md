@@ -33,7 +33,8 @@ Having defined an event, the `with-esper` macro can be used to build the Esper r
 
 	(def statement "SELECT a, b FROM TestEvent")
 
-	(with-esper service #{TestEvent}
+	(with-esper service {:events #{TestEvent}
+                       :uri "/something"}
 	      (attach-statement statement (handler output-events))
 	      (trigger-event (new-event TestEvent :a 1 :b "Hello"))
 

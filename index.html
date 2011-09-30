@@ -1,0 +1,245 @@
+<html>
+  <head>
+    <title>clj-esper.core - clj-esper nil API documentation</title>
+    <link href="static/favicon.png" rel="icon" />
+    <link href="static/favicon.png" rel="shortcut icon" />
+    <link media="all" type="text/css" href="static/clojure.css" rel="stylesheet" />
+    <link media="all" type="text/css" href="static/wiki.css" rel="stylesheet" />
+    <link media="all" type="text/css" href="static/internal.css" rel="stylesheet" />
+    <style>.menuWrapper{height: 36px;}</style>
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" href="http://www.wikispaces.com/_/2009051601/s/internal_ie.css" type="text/css" />
+    <![endif]-->
+  </head>
+<!--
+This document was auto-generated from the source by the clojure autodoc system.
+To report errors or ask questions about the overall documentation structure, formatting,
+etc., contact Tom Faulhaber (google mail name: tomfaulhaber).
+For errors in the documentation of a particular namespace, contact the author of that
+namespace.
+-->
+  <body>
+    <div id="AllContentContainer">
+      <div id="Header">
+	<a id="Logo" href="index.html"><img alt="Clojure" height="100" width="100" src="static/clojure-icon.gif" /></a>
+	<h1><a title="page header title" id="page-header" href="index.html">clj-esper</a></h1>
+      </div>
+      <div id="leftcolumn"><div style="text-align: center;"></div>
+<div class="menu">
+  <div class="WikiCustomNav WikiElement wiki">
+    <span class="toc-header"><span id="project-name">clj-esper</span> <span id="version"></span> API</span><br />
+    <ul>
+      <li><a class="wiki_link" href="index.html">Overview</a></li>
+      <li><a class="wiki_link" href="api-index.html">API Index</a></li>
+    </ul>
+    
+    
+    <a href="http://clojure.org" class="wiki_link">Clojure Home</a>
+  </div>
+</div>
+</div>
+      <div id="rightcolumn">
+	<div id="Content">
+	  <div class="contentBox"><div class="innerContentBox">
+              <div id="content_view" class="wiki wikiPage">
+                <div id="right-sidebar"><div id="toc">
+  <h1 class="nopad">Table of Contents</h1>
+  <div style="margin-left: 1em;" class="toc-section">
+    <a href="#toc0">Overview</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/attach-listener">attach-listener</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/attach-statement">attach-statement</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/attach-statements">attach-statements</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/coerce-values">coerce-values</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/create-configuration">create-configuration</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/create-listener">create-listener</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/create-statement">create-statement</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/defevent">defevent</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/defstatement">defstatement</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/send-event">send-event</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/statement-names">statement-names</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#clj-esper.core/with-esper">with-esper</a>
+    </div>
+    <br />
+  </div>
+</div>
+</div>
+                <div id="content-tag"><h1 id="overview">API for <span id="namespace-name">clj-esper.core</span>
+  - <span id="header-project">clj-esper</span> <span id="header-version"></span> (<span id="header-status"></span>)
+  </h1>
+
+<br />Full namespace name: <span id="long-name">clj-esper.core</span>
+<p></p>
+<h2>Overview</h2>
+<pre id="namespace-docstr"></pre>
+
+
+<br />
+<h2>Public Variables and Functions</h2>
+<div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/attach-listener">attach-listener</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (attach-listener statement listener)
+</pre>
+  <pre id="var-docstr">Attaches the listener to the statement.</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/attach-statement">attach-statement</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (attach-statement statement &amp; handlers)
+</pre>
+  <pre id="var-docstr">Creates a statement with attached handlers</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/attach-statements">attach-statements</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (attach-statements statements &amp; handlers)
+</pre>
+  <pre id="var-docstr">Allows attachment of multiple statements to the same handlers.</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/coerce-values">coerce-values</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (coerce-values m event-attributes)
+</pre>
+  <pre id="var-docstr">Coerces event values into their relevant type</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/create-configuration">create-configuration</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (create-configuration es)
+       (create-configuration config es)
+</pre>
+  <pre id="var-docstr">Builds an Esper Configuration object from a sequence of defevent records</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/create-listener">create-listener</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (create-listener fun)
+</pre>
+  <pre id="var-docstr">Creates an UpdateListener proxy that can be attached to
+handle updates to Esper statements. fun will be called for
+each newEvent received.</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/create-statement">create-statement</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (create-statement service statement)
+       (create-statement service statement name)
+</pre>
+  <pre id="var-docstr">Creates an Esper statement</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/defevent">defevent</h2>
+  <span id="var-type">macro</span><br />
+  <pre id="var-usage">Usage: (defevent name attributes &amp; etc)
+</pre>
+  <pre id="var-docstr">Creates an event record and registers the details in *event-attributes*</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/defstatement">defstatement</h2>
+  <span id="var-type">macro</span><br />
+  <pre id="var-usage">Usage: (defstatement name s)
+</pre>
+  <pre id="var-docstr">Binds statement s to var name.</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/send-event">send-event</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (send-event service event type)
+</pre>
+  <pre id="var-docstr">Pushes the event into the Esper processing engine.</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/statement-names">statement-names</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (statement-names)
+       (statement-names service)
+</pre>
+  <pre id="var-docstr">Returns the names of all statements that have been registered</pre>
+  
+  
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="clj-esper.core/with-esper">with-esper</h2>
+  <span id="var-type">macro</span><br />
+  <pre id="var-usage">Usage: (with-esper name {:keys [events uri], :or {events [], uri (str (gensym name))}} &amp; body)
+</pre>
+  <pre id="var-docstr">Creates an Esper service and registers specified events.</pre>
+  
+  
+  
+</div>
+
+
+</div>
+              </div>
+            </div>
+          </div>
+	</div>
+	<div id="foot">
+	  <div style="text-align: center;" id="copyright">No copyright info </div>
+	</div>
+      </div>
+      <div id="DesignedBy">Logo &amp; site design by <a title="Visit Tom Hickey's website." href="http://www.tomhickey.com">Tom Hickey</a>.<br />
+      Clojure auto-documentation system by Tom Faulhaber.</div>
+    </div>
+    <!-- /AllContentContainer -->
+  </body>
+
+</html>

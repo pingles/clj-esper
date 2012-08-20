@@ -1,8 +1,7 @@
 (ns clj-esper.core
   (:import [java.util Properties]
            [com.espertech.esper.client Configuration UpdateListener EPStatement EPServiceProviderManager])
-  (:use [clojure.contrib.java-utils :only (as-properties as-str)] 
-        [clojure.walk :only (stringify-keys)]))
+  (:use [clojure.walk :only (stringify-keys)]))
 
 (defn create-listener
   "Creates an UpdateListener proxy that can be attached to
@@ -100,6 +99,16 @@
                               (event-attributes event))
       event)))
 
+;; Taken from the old clojure.contrib.java-utils
+(defn ^Properties as-properties
+  "Convert any seq of pairs to a java.utils.Properties instance.
+   Uses as-str to convert both keys and values into strings."
+  [m]
+  (let [p (Properties.)]
+    (doseq [[k v] m]
+      (.setProperty p (name k) (name v)))
+    p))
+
 (defn create-configuration
   "Builds an Esper Configuration object from a sequence of defevent records"
   ([es]
@@ -155,16 +164,16 @@
 
 (defmacro defevent
   "Creates an event record and registers the details in *event-attributes*"
-  [name attributes & etc]
-  (let [name-str (as-str name)
+  [event-name attributes & etc]
+  (let [name-str (name event-name)
         attr-names (vec (map #(keyword (first %)) (partition 2 attributes)))
         attr-types (vec (map second (partition 2 attributes)))
         attrs (apply hash-map (interleave attr-names attr-types))]
-    `(def ~name {:name ~name-str
+    `(def ~event-name {:name ~name-str
                  :attributes ~attrs})))
 
 (defmacro defstatement
   "Binds statement s to var name."
-  [name s]
-  (let [name-str (as-str name)]
-    `(def ~name (Statement. ~name-str ~s))))
+  [statement-name s]
+  (let [name-str (name statement-name)]
+    `(def ~statement-name (Statement. ~name-str ~s))))

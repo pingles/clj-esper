@@ -40,7 +40,7 @@
   (.. service getEPAdministrator getConfiguration))
 
 
-(def *service* nil)
+(def ^:dynamic *service* nil)
 
 (defn event-name
   [event]
@@ -100,7 +100,7 @@
       event)))
 
 ;; Taken from the old clojure.contrib.java-utils
-(defn ^Properties as-properties
+(defn- ^Properties as-properties
   "Convert any seq of pairs to a java.utils.Properties instance.
    Uses as-str to convert both keys and values into strings."
   [m]

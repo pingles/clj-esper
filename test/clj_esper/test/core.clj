@@ -3,7 +3,7 @@
   (:use [clojure.test])
   (:import [com.espertech.esper.event.map MapEventBean]
            [com.espertech.esper.client EPServiceProviderManager]
-           [com.espertech.esper.core EPServiceProviderImpl]))
+           [com.espertech.esper.core.service EPServiceProviderImpl]))
 
 
 (defevent TestEvent [a :int b :string])

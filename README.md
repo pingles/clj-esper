@@ -49,4 +49,4 @@ For more examples please see the tests.
 
 Copyright &copy; 2011 Paul Ingles.
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the [GNU General Public License v2.0](http://www.gnu.org/licenses/gpl-2.0.html).
